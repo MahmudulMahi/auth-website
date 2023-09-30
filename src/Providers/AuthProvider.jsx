@@ -1,7 +1,7 @@
 import { createContext, useEffect, useState } from "react";
 import PropTypes from 'prop-types';
 import auth from "../firebase/fairbase.config";
-import {  createUserWithEmailAndPassword, onAuthStateChanged, signInWithEmailAndPassword } from "firebase/auth";
+import {  createUserWithEmailAndPassword, onAuthStateChanged, signInWithEmailAndPassword, signOut } from "firebase/auth";
 
 export const AuthContext =createContext(null)
 const AuthProvider = ({children}) => {
@@ -16,6 +16,10 @@ const AuthProvider = ({children}) => {
     return signInWithEmailAndPassword(auth, email, password)
    }
 
+   const logOut=()=>{
+    return signOut(auth)
+   }
+
    useEffect(() =>{
     const unSubscribe=onAuthStateChanged(auth,currentUser =>{
       setUser(currentUser)
@@ -25,7 +29,7 @@ const AuthProvider = ({children}) => {
       unSubscribe
     }
    },[])
-  const authInfo={user,createUser,singInUser} 
+  const authInfo={user,createUser,singInUser,logOut} 
 
   
   return (
